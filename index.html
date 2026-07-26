@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Frekos — Independent Design & Engineering Studio</title>
+<meta name="description" content="Frekos is an independent studio crafting brands, products, and the systems that connect them — bold ideas, shipped with quiet precision." />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{ box-sizing:border-box; margin:0; padding:0 }
+html{ font-size:16px; -webkit-font-smoothing:antialiased }
+body{ background:#ffffff; color:#111111; font-family:'Onest',sans-serif; overflow:hidden }
+a{ color:inherit; text-decoration:none }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer }
+ul{ list-style:none }
+img{ display:block }
+.sr-only{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }
+:focus-visible{ outline:2px solid #2d5a5a; outline-offset:2px }
+@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important } }
+
+:root{
+--ink:#0a0a0a; --line:#e6e5e2; --surface:#f1f0ee;
+--accent:#2d5a5a; --accent-from:#4a7a74; --accent-to:#1a3a3a;
+}
+
+@media (max-width:1920px){ html{ font-size:0.833333vw } }
+@media (max-width:1440px){ html{ font-size:1.111111vw } }
+@media (max-width:1024px){ html{ font-size:1.5625vw } }
+@media (max-width:640px){ html{ font-size:4.444444vw } }
+
+.shell{ max-width:88rem; margin-inline:auto; padding-inline:1.25rem }
+@media (min-width:640px){ .shell{ padding-inline:2rem } }
+
+.skip-link{ position:absolute; left:-999px; top:-999px; z-index:60 }
+.skip-link:focus{ position:fixed; left:1rem; top:1rem; border-radius:.875rem; background:#0a0a0a; padding:.5rem 1rem; font-size:.875rem; color:#fff }
+
+.ico{ width:1em; height:1em; display:inline-block; vertical-align:middle; flex:0 0 auto }
+
+#loader{ position:fixed; inset:0; z-index:120; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; background:#0a0a0a; color:#fff; border-radius:0 0 2rem 2rem; will-change:transform; }
+#loader .center{ display:flex; flex-direction:column; align-items:center; gap:1.25rem; text-align:center; will-change:transform,opacity; }
+#loader .brand{ display:flex; align-items:center; gap:.5rem; font-weight:600; font-size:1.5rem }
+#loader .brand .ico{ font-size:1.875rem; color:#4a7a74 }
+@media (min-width:640px){ #loader .brand{ font-size:1.875rem } }
+#loader .tag{ max-width:24ch; font-size:.875rem; color:rgba(255,255,255,.55) }
+#loader .prog{ width:min(22rem,72vw); display:flex; flex-direction:column; gap:.75rem }
+#loader .track{ height:1px; background:rgba(255,255,255,.15); width:100% }
+#loader .fill{ height:100%; background:#4a7a74; width:0%; transition:width .1s ease-out }
+#loader .row{ display:flex; justify-content:space-between; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:rgba(255,255,255,.45) }
+#loader .count{ font-variant-numeric:tabular-nums; color:rgba(255,255,255,.8) }
+
+#header{ position:absolute; inset-inline:0; top:0; z-index:50; opacity:0; transform:translateY(-14px) }
+#header .inner{ display:flex; align-items:center; justify-content:space-between; gap:1.5rem; padding-block:1.25rem }
+@media (min-width:640px){ #header .inner{ padding-block:1.5rem } }
+.brandbtn{ display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600; letter-spacing:-.01em }
+.brandbtn .ico{ font-size:1.25rem; color:#2d5a5a }
+.hover-span{ display:inline-flex; align-items:center; gap:.5rem; will-change:transform }
+.mainnav{ display:none }
+@media (min-width:1024px){ .mainnav{ display:flex } }
+.mainnav ul{ display:flex; gap:2rem; font-size:.875rem; font-weight:500 }
+.mainnav button{ display:inline-flex; align-items:center; gap:.25rem }
+.mainnav .lbl{ display:inline-block; opacity:.8; will-change:transform }
+.mainnav .caret{ font-size:.75rem; opacity:.6 }
+.headright{ display:flex; align-items:center; gap:1rem }
+.clock{ display:none; align-items:center; gap:.75rem; border:1px solid rgba(230,229,226,.8); background:rgba(255,255,255,.4); backdrop-filter:blur(4px); border-radius:.875rem; padding:.5rem .75rem; font-size:.75rem; color:rgba(17,17,17,.7) }
+@media (min-width:768px){ .clock{ display:flex } }
+.clock .lab{ color:rgba(17,17,17,.45) }
+.clock .time{ min-width:3.5rem; font-variant-numeric:tabular-nums; font-weight:500; color:#111 }
+.clock .sep{ color:rgba(17,17,17,.3) }
+.clock .date{ font-weight:500 }
+.menubtn{ border:1px solid rgba(230,229,226,.8); background:rgba(255,255,255,.4); backdrop-filter:blur(4px); border-radius:.875rem }
+.menubtn:hover{ background:rgba(255,255,255,.7) }
+.menubtn .hover-span{ padding:.5rem 1rem; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em }
+.menubtn .ico{ font-size:.875rem }
+.menubtn .mtxt{ display:none }
+@media (min-width:640px){ .menubtn .mtxt{ display:inline } }
+
+#home{ position:relative; isolation:isolate; overflow:hidden; height:100vh; height:100lvh; background:linear-gradient(135deg,#ecebe9 0%,#dad8d4 45%,#c9c9c9 100%) }
+.bgfx{ position:absolute; inset:0; z-index:0; overflow:hidden }
+.bgfx .blob{ position:absolute; border-radius:50%; filter:blur(60px); opacity:.55 }
+.bgfx .b1{ width:46rem; height:46rem; left:-10rem; top:-8rem; background:radial-gradient(circle at 30% 30%, rgba(74,122,116,.45), transparent 60%) }
+.bgfx .b2{ width:40rem; height:40rem; right:-12rem; bottom:-10rem; background:radial-gradient(circle at 50% 50%, rgba(26,58,58,.30), transparent 60%) }
+.bgfx .b3{ width:34rem; height:34rem; left:40%; top:30%; background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.55), transparent 60%) }
+.liquid{ position:absolute; inset:0; z-index:0 }
+.liquid img.base-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0 }
+.liquid canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1 }
+.vignette{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(to bottom, rgba(255,255,255,.35), transparent 40%, transparent 60%, rgba(255,255,255,.45)) }
+.heromark{ pointer-events:none; position:absolute; inset-inline:0; bottom:5rem; z-index:1; text-align:center; user-select:none; font-weight:700; line-height:1; font-size:13rem; color:rgba(255,255,255,.35); opacity:0; transform:translateY(20px) }
+@media (max-width:640px){ .heromark{ font-size:8rem; bottom:3rem } }
+.herogrid{ position:relative; z-index:20; display:flex; flex-direction:column; gap:2rem; padding:7rem 1.25rem 3rem }
+@media (min-width:640px){ .herogrid{ padding-left:2rem; padding-right:2rem } }
+@media (min-width:1024px){ .herogrid{ display:grid; min-height:100lvh; grid-template-columns:repeat(12,1fr); gap:2.5rem; padding:9rem 2rem 6rem; align-content:center } }
+.hcol-left{ display:flex; flex-direction:column; gap:1.75rem }
+@media (min-width:1024px){ .hcol-left{ grid-column:span 7 } }
+.hcol-right{ display:flex; flex-direction:column; align-items:flex-start; gap:2rem }
+@media (min-width:1024px){ .hcol-right{ grid-column:span 5; align-items:flex-end; justify-content:center } }
+.eyebrow{ display:inline-flex; align-items:center; gap:.5rem; font-size:.875rem; font-weight:500; color:rgba(17,17,17,.7) }
+.eyebrow .dot{ width:.375rem; height:.375rem; background:rgba(17,17,17,.5); border-radius:9999px }
+.reveal{ opacity:0 }
+h1.hero{ max-width:18ch; font-size:2.25rem; font-weight:600; line-height:.98; letter-spacing:-.02em }
+@media (min-width:640px){ h1.hero{ font-size:3rem } }
+@media (min-width:768px){ h1.hero{ font-size:3.75rem } }
+.line{ display:block; overflow:hidden }
+.line span{ display:block; transform:translateY(100%); opacity:0 }
+.rating{ display:flex; align-items:center; gap:.75rem }
+.rating .stars{ color:#2d5a5a; display:inline-flex; gap:.05rem; font-size:1rem }
+.rating .txt{ font-size:.875rem; font-weight:500; color:rgba(17,17,17,.7) }
+.cta-row{ display:flex; flex-wrap:wrap; gap:.75rem }
+
+.pill{ display:inline-block }
+.pill .inner{ display:inline-flex; align-items:center; gap:.75rem; border-radius:9999px; font-size:.875rem; font-weight:500 }
+.pill.dark .inner{ background:#0a0a0a; color:#fff }
+.pill.outline .inner{ border:1px solid rgba(17,17,17,.25); background:rgba(255,255,255,.4); backdrop-filter:blur(4px); color:#111 }
+.pill.witharrow .inner{ padding:.375rem .375rem .375rem 1.5rem }
+.pill.noarrow .inner{ padding:.875rem 1.75rem }
+.pill .badge{ width:2.25rem; height:2.25rem; display:grid; place-items:center; border-radius:9999px; font-size:1rem }
+.pill.dark .badge{ background:#fff; color:#0a0a0a }
+.pill.outline .badge{ background:#0a0a0a; color:#fff }
+.pill .badge .ico{ will-change:transform }
+
+.herocard{ width:100%; max-width:24rem; border-radius:1.25rem; background:rgba(255,255,255,.7); padding:.5rem; box-shadow:0 10px 40px rgba(0,0,0,.12), 0 0 0 1px rgba(230,229,226,.7); backdrop-filter:blur(12px) }
+@media (min-width:1024px){ .herocard{ width:21rem } }
+.herocard .clickrow{ display:flex; gap:.5rem; cursor:pointer; border-radius:.875rem }
+.herocard .tile{ aspect-ratio:1; width:6rem; display:grid; place-items:center; border-radius:.875rem; background:#0a0a0a; font-size:1.875rem; color:#fff }
+.herocard .tile .ico{ color:#4a7a74 }
+.herocard .panel{ flex:1; border-radius:.875rem; background:rgba(241,240,238,.7); padding:.75rem; display:flex; flex-direction:column; justify-content:space-between }
+.herocard .slot{ position:relative; min-height:3.25rem }
+.herocard .cap{ font-size:.65rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:rgba(17,17,17,.45) }
+.herocard .title{ max-width:8rem; font-size:.875rem; font-weight:500; line-height:1.35 }
+.herocard .bottom{ display:flex; align-items:center; justify-content:space-between }
+.herocard .dots{ display:flex; gap:.25rem; align-items:center }
+.herocard .dash{ height:.25rem; border-radius:9999px; transition:all .3s; width:.375rem; background:rgba(17,17,17,.2) }
+.herocard .dash.act{ width:1rem; background:rgba(17,17,17,.7) }
+.herocard .navs{ display:flex; gap:.375rem }
+.herocard .nb{ width:1.75rem; height:1.75rem; display:grid; place-items:center; border-radius:9999px; background:#fff; color:rgba(17,17,17,.7); box-shadow:0 0 0 1px #e6e5e2 }
+.herocard .nb:hover{ color:#111 }
+.partners{ width:100%; max-width:24rem }
+@media (min-width:1024px){ .partners{ width:21rem } }
+.partners .lab{ margin-bottom:.75rem; font-size:.75rem; font-weight:500; color:rgba(17,17,17,.45); text-align:left }
+@media (min-width:1024px){ .partners .lab{ text-align:right } }
+.partners ul{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:1rem; row-gap:.75rem }
+.partners li .hover-span{ display:inline-flex; align-items:center; gap:.375rem; font-size:.75rem; color:rgba(17,17,17,.7); opacity:.7 }
+.partners li .ico{ font-size:.875rem; color:rgba(17,17,17,.4) }
+.statusbar{ position:absolute; left:0; right:0; bottom:0; z-index:20; opacity:0; display:flex; align-items:center; justify-content:space-between; gap:.75rem; border-top:1px solid rgba(17,17,17,.1); padding-block:1.25rem; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.025em; color:rgba(17,17,17,.6) }
+.statusbar .mid{ display:none }
+@media (min-width:640px){ .statusbar .mid{ display:inline } }
+.statusbar .right{ display:inline-flex; gap:.5rem; align-items:center }
+
+#navmenu{ position:fixed; inset:0; z-index:115; display:flex; flex-direction:column; background:#0a0a0a; color:#fff; opacity:0 }
+#navmenu .topbar{ display:flex; align-items:center; justify-content:space-between; padding-block:1.25rem }
+@media (min-width:640px){ #navmenu .topbar{ padding-block:1.5rem } }
+#navmenu .nbrand{ display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600 }
+#navmenu .nbrand .ico{ font-size:1.25rem; color:#4a7a74 }
+#navmenu .closebtn{ display:inline-flex; align-items:center; gap:.5rem; border:1px solid rgba(255,255,255,.15); border-radius:.875rem; padding:.5rem 1rem; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:rgba(255,255,255,.7) }
+#navmenu .closebtn:hover{ border-color:rgba(255,255,255,.4); color:#fff }
+#navmenu .closebtn .ico{ font-size:.875rem }
+#navmenu .nav{ flex:1; display:flex; flex-direction:column; justify-content:center }
+#navmenu .nav ul{ display:flex; flex-direction:column; gap:.25rem }
+#navmenu .nav button{ display:flex; gap:1rem; padding-block:.5rem; text-align:left; font-size:2.25rem; font-weight:600; letter-spacing:-.02em; transform:translateY(1rem); opacity:0; transition:all .5s ease-out }
+@media (min-width:640px){ #navmenu .nav button{ font-size:3.75rem } }
+#navmenu.open .nav button{ transform:translateY(0); opacity:1 }
+#navmenu .nav .ni{ font-size:1rem; font-weight:400; color:rgba(255,255,255,.3); transition:color .3s }
+#navmenu .nav .nl{ color:rgba(255,255,255,.7); transition:color .3s }
+#navmenu .nav button:hover .ni{ color:#4a7a74 }
+#navmenu .nav button:hover .nl{ color:#fff }
+#navmenu .botbar{ display:flex; flex-direction:column; gap:.75rem; border-top:1px solid rgba(255,255,255,.1); padding-block:1.5rem; font-size:.75rem; text-transform:uppercase; letter-spacing:.025em; color:rgba(255,255,255,.45) }
+@media (min-width:640px){ #navmenu .botbar{ flex-direction:row; justify-content:space-between } }
+#navmenu .botbar button:hover{ text-decoration:underline; color:#fff }
+
+#modal{ position:fixed; inset:0; z-index:110; display:flex; align-items:flex-end; justify-content:center; padding:1rem; background:rgba(17,17,17,.3); backdrop-filter:blur(16px) }
+@media (min-width:640px){ #modal{ align-items:center } }
+#modal .panel{ position:relative; width:100%; max-width:32rem; overflow:hidden; border-radius:2rem; background:#fff; padding:1.5rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.25), 0 0 0 1px #e6e5e2; opacity:0; transform:translateY(28px) }
+@media (min-width:640px){ #modal .panel{ padding:2rem } }
+#modal .closeb{ position:absolute; right:1rem; top:1rem; width:2.25rem; height:2.25rem; display:grid; place-items:center; border-radius:9999px; background:#f1f0ee; color:rgba(17,17,17,.6) }
+#modal .closeb:hover{ background:#e3e2df; color:#111 }
+#modal .head{ margin-bottom:1.5rem; display:flex; flex-direction:column; gap:.375rem }
+#modal .kicker{ display:inline-flex; align-items:center; gap:.5rem; font-size:.875rem; font-weight:500; color:rgba(17,17,17,.6) }
+#modal .kicker .dot{ width:.375rem; height:.375rem; background:#2d5a5a; border-radius:9999px }
+#modal h2{ font-size:1.5rem; font-weight:600; letter-spacing:-.01em }
+@media (min-width:640px){ #modal h2{ font-size:1.875rem } }
+#modal form{ display:flex; flex-direction:column; gap:1rem }
+#modal label{ display:flex; flex-direction:column; gap:.375rem }
+#modal .cap{ font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.025em; color:rgba(17,17,17,.5) }
+#modal input, #modal textarea{ width:100%; border:1px solid #e6e5e2; background:rgba(241,240,238,.5); border-radius:.875rem; padding:.75rem 1rem; font-size:.875rem; outline:none; transition:border .2s, background .2s; font-family:inherit }
+#modal textarea{ resize:none }
+#modal input:focus, #modal textarea:focus{ border-color:rgba(17,17,17,.3); background:#fff }
+#modal .botrow{ margin-top:.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem }
+#modal .note{ font-size:.75rem; color:rgba(17,17,17,.45) }
+#modal .success{ display:flex; flex-direction:column; align-items:center; text-align:center; padding-block:2rem; gap:1rem }
+#modal .success .sbadge{ width:3.5rem; height:3.5rem; display:grid; place-items:center; border-radius:9999px; background:#0a0a0a; color:#4a7a74; font-size:1.5rem }
+#modal .success p{ max-width:32ch; font-size:.875rem; color:rgba(17,17,17,.6) }
+.hidden{ display:none !important }
+</style>
+</head>
+<body>
+<a href="#home" class="skip-link">Skip to content</a>
+
+<div id="loader">
+  <div class="center">
+    <div class="brand">
+      <svg class="ico" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg>
+      Frekos
+    </div>
+    <p class="tag">Bold ideas, shipped with quiet precision.</p>
+  </div>
+  <div class="prog">
+    <div class="track"><div class="fill" id="loaderFill"></div></div>
+    <div class="row"><span>Loading</span><span class="count" id="loaderCount">000</span></div>
+  </div>
+</div>
+
+<header id="header">
+  <div class="inner shell">
+    <button class="brandbtn">
+      <span class="hover-span">
+        <svg class="ico" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg>
+        Frekos
+      </span>
+    </button>
+    <nav class="mainnav">
+      <ul>
+        <li><button aria-current="page"><span class="lbl">Home</span></button></li>
+        <li><button><span class="lbl">Work</span></button></li>
+        <li><button><span class="lbl">Services</span><span class="caret">▾</span></button></li>
+        <li><button><span class="lbl">Studio</span></button></li>
+        <li><button data-modal><span class="lbl">Contact</span></button></li>
+      </ul>
+    </nav>
+    <div class="headright">
+      <div class="clock">
+        <span class="lab">Local time</span>
+        <span class="time" id="clockTime">9:41am</span>
+        <span class="sep">•</span>
+        <span class="date" id="clockDate">12 March, 2025</span>
+      </div>
+      <button class="menubtn" data-open-nav>
+        <span class="hover-span">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <span class="mtxt">Menu</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="home">
+    <div class="bgfx" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
+    <div class="liquid" id="liquid" aria-hidden="true">
+      <img class="base-img" src="FREKOS1.png" alt="" fetchpriority="high" />
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="vignette"></div>
+    <div class="heromark" id="heroMark">FREKOS</div>
+    <div class="herogrid shell">
+      <div class="hcol-left">
+        <span class="eyebrow reveal" id="heroEyebrow"><span class="dot"></span>Independent Studio</span>
+        <h1 class="hero" id="heroH1">
+          <span class="line"><span>Bold ideas,</span></span>
+          <span class="line"><span>shipped with</span></span>
+          <span class="line"><span>quiet precision</span></span>
+        </h1>
+        <div class="rating reveal" id="heroRating">
+          <span class="stars">
+            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+          </span>
+          <span class="txt">200+ brands shipped</span>
+        </div>
+        <div class="cta-row reveal" id="heroCtas">
+          <button class="pill dark witharrow" data-modal>
+            <span class="inner">Let's Talk
+              <span class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </span>
+          </button>
+          <button class="pill outline noarrow" data-modal><span class="inner">View Work</span></button>
+        </div>
+      </div>
+      <div class="hcol-right">
+        <div class="herocard reveal" id="heroCard">
+          <div class="clickrow" id="cardClick">
+            <div class="tile"><svg class="ico" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg></div>
+            <div class="panel">
+              <div class="slot">
+                <div class="cap" id="cardCap">Conversion design</div>
+                <div class="title" id="cardTitle">Crafted to convert.</div>
+              </div>
+              <div class="bottom">
+                <div class="dots" id="cardDots">
+                  <span class="dash act"></span><span class="dash"></span><span class="dash"></span>
+                </div>
+                <div class="navs">
+                  <button class="nb" id="cardPrev" aria-label="Previous"><svg class="ico" style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                  <button class="nb" id="cardNext" aria-label="Next"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="partners reveal" id="heroPartners">
+          <div class="lab">Trusted by</div>
+          <ul id="partnerList"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="statusbar shell" id="heroStatus">
+      <span>Working since 2014</span>
+      <span class="mid"><a href="https://github.com/AlexBlack-Dev" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.375rem;color:inherit;text-decoration:none"><svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>created Alex-Black</a></span>
+      <span class="right">Independent studio <span>✦</span></span>
+    </div>
+  </section>
+</main>
+
+<div id="navmenu" class="hidden">
+  <div class="topbar shell">
+    <div class="nbrand"><svg class="ico" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg> Frekos</div>
+    <button class="closebtn" data-close-nav><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4 4 20"/></svg> Close</button>
+  </div>
+  <div class="nav shell">
+    <ul id="navMenuList"></ul>
+  </div>
+  <div class="botbar shell">
+    <span id="navClock">Local time</span>
+    <button data-modal data-from-nav>Start a project →</button>
+  </div>
+</div>
+
+<div id="modal" class="hidden" role="dialog" aria-modal="true">
+  <div class="panel" id="modalPanel">
+    <button class="closeb" data-close-modal aria-label="Close"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4 4 20"/></svg></button>
+    <div id="modalForm">
+      <div class="head">
+        <span class="kicker"><span class="dot"></span>Start a project</span>
+        <h2>Tell us what you're building.</h2>
+      </div>
+      <form id="reqForm">
+        <label><span class="cap">Name</span><input type="text" required placeholder="Your name" /></label>
+        <label><span class="cap">Email</span><input type="email" required placeholder="you@company.com" /></label>
+        <label><span class="cap">Project</span><textarea rows="4" required placeholder="A few words about your project, timeline, and budget."></textarea></label>
+        <div class="botrow">
+          <span class="note">We reply within one business day.</span>
+          <button class="pill dark witharrow" type="submit" id="submitBtn">
+            <span class="inner"><span id="submitLabel">Send request</span>
+              <span class="badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div id="modalSuccess" class="success hidden">
+      <div class="sbadge"><svg class="ico" viewBox="0 0 48 48" fill="currentColor"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg></div>
+      <h2>Request received</h2>
+      <p>Thanks for reaching out — we'll get back to you within one business day.</p>
+      <button class="pill dark noarrow" data-close-modal><span class="inner">Close</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function applyAdaptiveGrid(){
+  const FONT_BASE=16, baseWidth=1920, coef=0.6666;
+  const w=window.innerWidth;
+  const widthReduction=((baseWidth-w)/baseWidth)*100;
+  const size=FONT_BASE-(FONT_BASE*(widthReduction*coef))/100;
+  if(size>FONT_BASE) document.documentElement.style.fontSize=size+'px';
+  else document.documentElement.style.removeProperty('font-size');
+}
+applyAdaptiveGrid(); addEventListener('resize', applyAdaptiveGrid);
+
+(function(){
+  const loader=document.getElementById('loader');
+  const fill=document.getElementById('loaderFill');
+  const count=document.getElementById('loaderCount');
+  const FILL_MS=1300;
+  const easeInOutCubic=t=> t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  const start=performance.now();
+  function tick(now){
+    let t=Math.min((now-start)/FILL_MS,1);
+    const p=Math.round(easeInOutCubic(t)*100);
+    fill.style.width=p+'%';
+    count.textContent=String(p).padStart(3,'0');
+    if(t<1){ requestAnimationFrame(tick); } else exit();
+  }
+  function exit(){
+    loader.style.transition='transform .7s cubic-bezier(.22,1,.36,1)';
+    const c=loader.querySelector('.center');
+    c.style.transition='opacity .6s ease, transform .6s ease';
+    c.style.opacity='0'; c.style.transform='translateY(-12px)';
+    loader.style.transform='translateY(-100%)';
+    setTimeout(()=>{ loader.remove(); playHeroReveals(); },700);
+  }
+  requestAnimationFrame(tick);
+})();
+
+function revealEl(el, delay=0){
+  if(!el) return;
+  el.style.transition='opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)';
+  el.style.transitionDelay=delay+'ms';
+  requestAnimationFrame(()=>{ el.style.opacity='1'; el.style.transform='none'; });
+}
+function setRevealInit(el, ty=0){ if(!el) return; el.style.opacity='0'; if(ty) el.style.transform='translateY('+ty+'px)'; }
+function revealLines(container, delay=0, stagger=120){
+  container.querySelectorAll('.line span').forEach((s,i)=>{
+    s.style.transition='transform .9s cubic-bezier(.215,.61,.355,1), opacity .9s cubic-bezier(.215,.61,.355,1)';
+    s.style.transitionDelay=(delay+i*stagger)+'ms';
+    requestAnimationFrame(()=>{ s.style.transform='translateY(0)'; s.style.opacity='1'; });
+  });
+}
+
+function playHeroReveals(){
+  const header=document.getElementById('header');
+  header.style.transition='opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)';
+  header.style.transitionDelay='150ms';
+  requestAnimationFrame(()=>{ header.style.opacity='1'; header.style.transform='none'; });
+  setRevealInit(document.getElementById('heroEyebrow'),10); revealEl(document.getElementById('heroEyebrow'),200);
+  revealLines(document.getElementById('heroH1'),250,120);
+  const card=document.getElementById('heroCard'); card.style.opacity='0'; card.style.transform='translateY(16px) scale(.96)';
+  setTimeout(()=>{ card.style.transition='opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)'; card.style.opacity='1'; card.style.transform='none'; },400);
+  setRevealInit(document.getElementById('heroPartners'),14); revealEl(document.getElementById('heroPartners'),550);
+  setRevealInit(document.getElementById('heroRating'),0); revealEl(document.getElementById('heroRating'),650);
+  setRevealInit(document.getElementById('heroCtas'),0); revealEl(document.getElementById('heroCtas'),750);
+  revealEl(document.getElementById('heroStatus'),900);
+  const hm=document.getElementById('heroMark');
+  hm.style.transition='opacity .9s ease, transform .9s ease'; hm.style.transitionDelay='300ms';
+  requestAnimationFrame(()=>{ hm.style.opacity='0.35'; hm.style.transform='none'; });
+}
+
+function updateClock(){
+  const now=new Date();
+  let h=now.getHours(); const m=now.getMinutes();
+  const mer=h>=12?'pm':'am'; const hh=h%12||12;
+  const time=hh+':'+String(m).padStart(2,'0')+mer;
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const date=now.getDate()+' '+months[now.getMonth()]+', '+now.getFullYear();
+  document.getElementById('clockTime').textContent=time;
+  document.getElementById('clockDate').textContent=date;
+  document.getElementById('navClock').textContent='Local time — '+time;
+}
+setInterval(updateClock,1000); updateClock();
+
+const partners=['Kaido','Northpeak','Vellum','Orbit','Brightline','Cobalt','Mesa'];
+const pl=document.getElementById('partnerList');
+partners.forEach(n=>{
+  const li=document.createElement('li');
+  li.innerHTML='<span class="hover-span"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>'+n+'</span>';
+  pl.appendChild(li);
+});
+
+const cardItems=[
+  {caption:'Conversion design', title:'Crafted to convert.'},
+  {caption:'Engineering', title:'Built to scale.'},
+  {caption:'Brand systems', title:'Designed to last.'}
+];
+let cardIdx=0;
+function renderCard(){
+  document.getElementById('cardCap').textContent=cardItems[cardIdx].caption;
+  document.getElementById('cardTitle').textContent=cardItems[cardIdx].title;
+  document.querySelectorAll('#cardDots .dash').forEach((d,i)=>d.classList.toggle('act',i===cardIdx));
+}
+function advance(step){ cardIdx=(cardIdx+step+cardItems.length)%cardItems.length; renderCard(); }
+document.getElementById('cardClick').addEventListener('click',()=>advance(1));
+document.getElementById('cardNext').addEventListener('click',(e)=>{e.stopPropagation();advance(1);});
+document.getElementById('cardPrev').addEventListener('click',(e)=>{e.stopPropagation();advance(-1);});
+
+const navItems=[
+  {label:'Home'},{label:'Work'},{label:'Services'},{label:'Studio'},{label:'Careers'},{label:'Contact', modal:true}
+];
+const nml=document.getElementById('navMenuList');
+navItems.forEach((it,i)=>{
+  const li=document.createElement('li');
+  li.innerHTML='<button style="transition-delay:'+(i*45+80)+'ms"><span class="ni">0'+(i+1)+'</span><span class="nl">'+it.label+'</span></button>';
+  li.querySelector('button').addEventListener('click',()=>{ closeNav(); if(it.modal) setTimeout(openModal,300); });
+  nml.appendChild(li);
+});
+
+function attachHover(el, transform){
+  if(REDUCED||!el) return;
+  el.parentElement.addEventListener('mouseenter',()=>{ el.style.transition='transform .35s cubic-bezier(.2,.8,.2,1)'; el.style.transform=transform; });
+  el.parentElement.addEventListener('mouseleave',()=>{ el.style.transform='none'; });
+}
+document.querySelectorAll('.brandbtn .hover-span, .menubtn .hover-span').forEach(s=>attachHover(s,'scale(1.04)'));
+document.querySelectorAll('.mainnav .lbl').forEach(s=>attachHover(s,'translateY(-2px)'));
+document.querySelectorAll('.partners li .hover-span').forEach(s=>{ if(REDUCED)return; const li=s.parentElement; li.addEventListener('mouseenter',()=>{s.style.transition='transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s';s.style.transform='translateY(-2px)';s.style.opacity='1';}); li.addEventListener('mouseleave',()=>{s.style.transform='none';s.style.opacity='.7';}); });
+document.querySelectorAll('.pill').forEach(p=>{ if(REDUCED)return; const inner=p.querySelector('.inner'); const badgeIco=p.querySelector('.badge .ico'); const pathEl=p.querySelector('.badge .ico path'); const up=pathEl&&pathEl.getAttribute('d').indexOf('17 7')>-1; p.addEventListener('mouseenter',()=>{ inner.style.transition='transform .35s cubic-bezier(.2,.8,.2,1)'; inner.style.transform='scale(1.04)'; if(badgeIco){ badgeIco.style.transition='transform .35s cubic-bezier(.2,.8,.2,1)'; badgeIco.style.transform=up?'translate(2px,-2px)':'translate(3px,0)'; } }); p.addEventListener('mouseleave',()=>{ inner.style.transform='none'; if(badgeIco) badgeIco.style.transform='none'; }); });
+
+const navmenu=document.getElementById('navmenu');
+function openNav(){ navmenu.classList.remove('hidden'); requestAnimationFrame(()=>{ navmenu.style.transition='opacity .4s cubic-bezier(.16,1,.3,1)'; navmenu.style.opacity='1'; navmenu.classList.add('open'); }); document.addEventListener('keydown',navEsc); }
+function closeNav(){ navmenu.style.opacity='0'; navmenu.classList.remove('open'); document.removeEventListener('keydown',navEsc); setTimeout(()=>navmenu.classList.add('hidden'),400); }
+function navEsc(e){ if(e.key==='Escape') closeNav(); }
+
+const modal=document.getElementById('modal'); const panel=document.getElementById('modalPanel');
+function openModal(){ modal.classList.remove('hidden'); requestAnimationFrame(()=>{ panel.style.transition='opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1)'; panel.style.opacity='1'; panel.style.transform='translateY(0)'; }); document.addEventListener('keydown',modalEsc); }
+function closeModal(){ panel.style.opacity='0'; panel.style.transform='translateY(18px)'; document.removeEventListener('keydown',modalEsc); setTimeout(()=>{ modal.classList.add('hidden'); document.getElementById('modalForm').classList.remove('hidden'); document.getElementById('modalSuccess').classList.add('hidden'); document.getElementById('reqForm').reset(); },300); }
+function modalEsc(e){ if(e.key==='Escape') closeModal(); }
+modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal(); });
+panel.addEventListener('click',(e)=>e.stopPropagation());
+
+document.getElementById('reqForm').addEventListener('submit',(e)=>{
+  e.preventDefault();
+  document.getElementById('submitLabel').textContent='Sending…';
+  setTimeout(()=>{ document.getElementById('modalForm').classList.add('hidden'); document.getElementById('modalSuccess').classList.remove('hidden'); document.getElementById('submitLabel').textContent='Send request'; },600);
+});
+
+document.querySelectorAll('[data-modal]').forEach(b=>b.addEventListener('click',()=>{ if(b.hasAttribute('data-from-nav')){ closeNav(); setTimeout(openModal,300);} else openModal(); }));
+document.querySelector('[data-open-nav]').addEventListener('click',openNav);
+document.querySelector('[data-close-nav]').addEventListener('click',closeNav);
+document.querySelectorAll('[data-close-modal]').forEach(b=>b.addEventListener('click',closeModal));
+
+(function(){
+  if(REDUCED) return;
+  const canvas=document.getElementById('heroCanvas');
+  const container=document.getElementById('liquid');
+  const ctx=canvas.getContext('2d');
+  const BRUSH_RADIUS=143, DECAY=0.016;
+  const dpr=Math.min(window.devicePixelRatio,2);
+  let radius=BRUSH_RADIUS*dpr;
+  let diam=Math.ceil(radius*2);
+  let brush=document.createElement('canvas');
+  let brushCtx=brush.getContext('2d');
+  let cover=document.createElement('canvas');
+  let coverCtx=cover.getContext('2d');
+  let points=[], last=null, idle=0;
+
+  const revealImg=new Image();
+  revealImg.src='FREKOS2.png';
+  let revealLoaded=false;
+  revealImg.onload=()=>{ revealLoaded=true; buildCover(); };
+
+  function buildCover(){
+    const cw=canvas.width, ch=canvas.height;
+    cover.width=cw; cover.height=ch;
+    const iw=revealImg.naturalWidth, ih=revealImg.naturalHeight;
+    const scale=Math.max(cw/iw, ch/ih);
+    const sw=iw*scale, sh=ih*scale;
+    const ox=(cw-sw)/2, oy=(ch-sh)/2;
+    coverCtx.clearRect(0,0,cw,ch);
+    coverCtx.drawImage(revealImg, ox, oy, sw, sh);
+  }
+
+  function size(){
+    const r=container.getBoundingClientRect();
+    canvas.width=Math.max(1,Math.floor(r.width*dpr));
+    canvas.height=Math.max(1,Math.floor(r.height*dpr));
+    canvas.style.width=r.width+'px';
+    canvas.style.height=r.height+'px';
+    radius=BRUSH_RADIUS*dpr; diam=Math.ceil(radius*2);
+    brush.width=diam; brush.height=diam;
+    if(revealLoaded) buildCover();
+  }
+
+  const ro=new ResizeObserver(size);
+  ro.observe(container);
+  size();
+
+  addEventListener('pointermove',(e)=>{
+    const r=canvas.getBoundingClientRect();
+    const x=(e.clientX-r.left)*dpr, y=(e.clientY-r.top)*dpr;
+    if(x<-radius||y<-radius||x>canvas.width+radius||y>canvas.height+radius){ last=null; return; }
+    if(last){
+      const dx=x-last.x, dy=y-last.y, dist=Math.hypot(dx,dy);
+      const step=Math.max(radius*0.3,1);
+      const n=Math.min(Math.ceil(dist/step),60);
+      for(let i=1;i<=n;i++) points.push({x:last.x+dx*(i/n),y:last.y+dy*(i/n)});
+    } else points.push({x,y});
+    last={x,y};
+  });
+
+  function stamp(x,y){
+    if(!revealLoaded) return;
+    const c=diam/2;
+    brushCtx.clearRect(0,0,diam,diam);
+    brushCtx.globalCompositeOperation='source-over';
+    const g=brushCtx.createRadialGradient(c,c,0,c,c,radius);
+    g.addColorStop(0,'rgba(255,255,255,1)');
+    g.addColorStop(0.55,'rgba(255,255,255,.82)');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    brushCtx.fillStyle=g;
+    brushCtx.fillRect(0,0,diam,diam);
+    brushCtx.globalCompositeOperation='source-in';
+    brushCtx.drawImage(cover,x-c,y-c,diam,diam,0,0,diam,diam);
+    ctx.globalCompositeOperation='source-over';
+    ctx.drawImage(brush,x-c,y-c);
+  }
+
+  function tick(){
+    const drawing=points.length>0;
+    if(drawing) idle=0;
+    else{ idle++; if(idle>120){ requestAnimationFrame(tick); return; } }
+    const fade=drawing?DECAY:Math.min(DECAY+idle*0.004,0.5);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.fillStyle='rgba(0,0,0,'+fade+')';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    if(drawing){ points.forEach(p=>stamp(p.x,p.y)); points=[]; }
+    if(idle===120) ctx.clearRect(0,0,canvas.width,canvas.height);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
