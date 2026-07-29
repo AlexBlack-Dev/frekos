@@ -192,6 +192,7 @@ h1.hero{ max-width:18ch; font-size:2.25rem; font-weight:600; line-height:.98; le
 #modal .success .sbadge{ width:3.5rem; height:3.5rem; display:grid; place-items:center; border-radius:9999px; background:#0a0a0a; color:#4a7a74; font-size:1.5rem }
 #modal .success p{ max-width:32ch; font-size:.875rem; color:rgba(17,17,17,.6) }
 .hidden{ display:none !important }
+@keyframes spin{ to{ transform:rotate(360deg) } }
 </style>
 </head>
 <body>
@@ -506,10 +507,41 @@ function modalEsc(e){ if(e.key==='Escape') closeModal(); }
 modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal(); });
 panel.addEventListener('click',(e)=>e.stopPropagation());
 
-document.getElementById('reqForm').addEventListener('submit',(e)=>{
+const reqForm=document.getElementById('reqForm');
+const submitBtn=document.getElementById('submitBtn');
+const submitLabel=document.getElementById('submitLabel');
+const btnInner=submitBtn.querySelector('.inner');
+const btnBadge=submitBtn.querySelector('.badge');
+let submitting=false;
+reqForm.addEventListener('submit',(e)=>{
   e.preventDefault();
-  document.getElementById('submitLabel').textContent='Sending…';
-  setTimeout(()=>{ document.getElementById('modalForm').classList.add('hidden'); document.getElementById('modalSuccess').classList.remove('hidden'); document.getElementById('submitLabel').textContent='Send request'; },600);
+  if(submitting) return;
+  const name=reqForm.querySelector('input[type="text"]');
+  const email=reqForm.querySelector('input[type="email"]');
+  const msg=reqForm.querySelector('textarea');
+  let valid=true;
+  [name,email,msg].forEach(f=>{ f.style.borderColor=''; if(!f.value.trim()){ f.style.borderColor='#d32f2f'; valid=false; } });
+  if(!valid) return;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){ email.style.borderColor='#d32f2f'; return; }
+  submitting=true;
+  submitBtn.disabled=true;
+  submitLabel.textContent='Sending';
+  btnBadge.innerHTML='<svg class="ico" style="animation:spin .8s linear infinite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
+  btnInner.classList.add('sending');
+  let dots=0;
+  const dotInt=setInterval(()=>{ dots=(dots+1)%4; submitLabel.textContent='Sending'+'.'.repeat(dots); },350);
+  setTimeout(()=>{
+    clearInterval(dotInt);
+    btnInner.classList.remove('sending');
+    document.getElementById('modalForm').classList.add('hidden');
+    document.getElementById('modalSuccess').classList.remove('hidden');
+    submitLabel.textContent='Send request';
+    btnBadge.innerHTML='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+    submitBtn.disabled=false;
+    submitting=false;
+    reqForm.reset();
+    [name,email,msg].forEach(f=>{ f.style.borderColor=''; });
+  },1800);
 });
 
 document.querySelectorAll('[data-modal]').forEach(b=>b.addEventListener('click',()=>{ if(b.hasAttribute('data-from-nav')){ closeNav(); setTimeout(openModal,300);} else openModal(); }));
